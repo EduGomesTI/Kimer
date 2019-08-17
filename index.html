@@ -8,31 +8,41 @@
         } 
      
         </style>
+        
+    </head>
+    <body>  
+        <canvas id="canvas" width="800" height="400" style="border: #F00 solid 1px;">	Seu navegador não suporta canvas </canvas>  
         <script>
             //Variáveis
             var myCanvas;
             var ctx;
-            var iniciarTempo = new Date().getTime();
+            var fundoImg = new Image(); //Adiciona a imagem de background no canvas.
+             
 
             //Funções
-            function startKimer(){
+            function iniciarKimer(){
                 myCanvas = document.getElementById("canvas");
-                ctx = myCanvas.getContext("2d");
-                alterarBackground();                
+                ctx = myCanvas.getContext("2d");            
+                limpar();          
+            }           
+
+            function limpar(){
+                ctx.clearRect(0, 0, 800, 400);
+                mudarFundo();
             }
 
-            function alterarBackground(){
-                var agora = new Date().getTime();
-                var deltaTempo = Math.floor((agora - iniciarTempo)/1000);
-                var img1 = new Image();
-                img1.src = "Resources/ColorDesert.jpg"
-                ctx.drawImage(img1, 0, 0);
-                ctx.font = "12px Arial";
-                ctx.fillText("Tempo: " + deltaTempo, 50, 50);
+            function mudarFundo(){
+                var imagens = ["Resources/ColorDesert.jpg", "Resources/ColorFall.jpg", "Resources/ColorForest.jpg"];
+                fundoImg.src = imagens[0];
+                fundoImg.onload = function(){
+                    ctx.drawImage(fundoImg, 0, 0);
+                }
+                
             }
+
+                //Início
+                requestAnimationFrame(iniciarKimer);
+           
         </script>
-    </head>
-    <body onLoad="startKimer();">  
-        <canvas id="canvas" width="800" height="400">	Seu navegador não suporta canvas </canvas>  
     </body>
 </html>

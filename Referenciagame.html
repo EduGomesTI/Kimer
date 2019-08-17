@@ -1,0 +1,168 @@
+<!--
+Orientações técnicas
+
+Para desenvolver essa atividade, você deverá seguir algumas regras, dentre elas:
+
+Tamanho do canvas: 800px X 400px (largura X altura)
+Interação com o usuário via teclado
+Detecção de colisão: deve ser utilizado o algoritmo fornecido nos materiais de aula
+As imagens utilizadas devem ficar no diretório imagens
+O game deve ser desenvolvido no arquivo com o nome game.html
+
+Observação: Por uma questão de um pouco mais de originalidade os asteroides deram lugar a Ovnis.
+-->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Jogo Fuga dos Ovnis</title>
+</head>
+<body>
+    <canvas id="meuCanvas" width="800" height="400" style="border: #F00 solid 1px;"></canvas>
+    <script>
+        //Declaração e inicialização de Variáveis
+        var canvas = document.getElementById('meuCanvas');
+        var ctx = canvas.getContext('2d');
+        var xNave = 0;
+        var yNave = 150;
+        var larguraNave = 40;
+        var alturaNave = 40;
+        var xOvni = 0;
+        var yOvni = 0;
+        var larguraOvni = 35;
+        var alturaOvni = 30;
+        var lastTime = 0;
+        var currentTime = 0;
+        var interval = 2000; // Em ms, 1000ms = 1s
+        var delta = 0;
+        var imgNave = new Image();
+        var imgOvni = new Image();
+        var iniciarPontos = 0; //0 desligado; 1 inicia a contagem dos pontos; 2 continua a contagem sem reinicializar
+        var currentTimePontos = 0;
+        var lastTimePontos = 0;
+        var deltaPontos = 0;
+        var currentTimePenalidade = 0;
+        var penalidadeTempo = 0;
+        var penalidade = 0;
+        var pontos = 0;
+        // Funções
+            //Desenha a nave
+        function desenharNave(pX, pY){            
+            window.onkeydown = pressTecla;     
+            ctx.drawImage(imgNave, xNave, yNave)   
+        }
+            //Desenha o meteoro
+        function desenharOvni(oX, oY){
+            imgOvni.src = "imagens/OvniVerde.webp";
+            ctx.drawImage(imgOvni, oX, oY);
+        }
+            /*
+            * Detecta a tecla pressionada e faz a movimentação correspondente
+            * Muda a direção do desenho da nave
+            * Cada vez que uma tecla é pressionada o contador de penalidade é zerado
+            */
+        function pressTecla(tecla){
+            switch(tecla.keyCode){
+                case 38: //Up
+                    imgNave.src = "imagens/ShipUp.webp"
+                    if (yNave > 0){
+                        yNave = yNave - 5;
+                    }           
+                    iniciarPontos++;
+                    currentTimePenalidade = (new Date()).getTime();
+                break;
+                case 40: //Down
+                    imgNave.src = "imagens/ShipDown.webp"
+                    if (yNave < 340) {
+                        yNave = yNave + 5;
+                    }              
+                    iniciarPontos++;
+                    currentTimePenalidade = (new Date()).getTime();
+                break;
+                case 39: //Rigth
+                    imgNave.src = "imagens/ShipRight.webp"
+                    if (xNave < 760){
+                        xNave = xNave + 5; 
+                    }            
+                    iniciarPontos++;     
+                    currentTimePenalidade = (new Date()).getTime();
+                break;
+                case 37: //Left
+                    imgNave.src = "imagens/ShipLeft.webp"
+                    if (xNave > 0){
+                        xNave = xNave -5;  
+                    }          
+                    iniciarPontos++;    
+                    currentTimePenalidade = (new Date()).getTime();
+                break;
+            }        
+        }
+            //Detecta a colisão da nave com o meteoro
+        function colisao(){
+            if (((xNave + larguraNave) > xOvni && xNave < (xOvni + larguraOvni)) && ((yNave + alturaNave) > yOvni && yNave < (yOvni + alturaOvni))){
+                //Ocorreu a colisão, faça algo
+                clearTimeout();
+                alert('Game Over.');
+            }
+            else{
+                requestAnimationFrame(gameloop);
+            }
+        }
+            /* 
+            * Esta função aglutina todas as outras fazendo com que o game
+            * tenha a movimentação da nave juntamente com a aletoriedade 
+            * dos Ovnis. Inicia também a pontuação do game e comanda 
+            * o processo de colisão determinado quando ocorre o Game Over.
+            * Todo o processo ocorre sempre depois da limpeza da tela.
+            */
+        function gameloop(){    
+            //Limpa a tela     
+            ctx.clearRect(0, 0, 800, 400);   
+            //Pontuação
+            pontuacao();
+            //Chama a nave
+            desenharNave(xNave, yNave);
+            //Rotinas do Ovni
+            currentTime = (new Date()).getTime();
+            delta = (currentTime - lastTime);
+            if (delta > interval){
+                //Determina novas coordenadas para o Ovni
+                xOvni = Math.floor(Math.random() * 765);
+                yOvni = Math.floor(Math.random() * 340);
+                lastTime = currentTime - (delta % interval);
+            }
+            desenharOvni(xOvni, yOvni); 
+            //Detecta a colisão
+            colisao();
+        }
+        /*
+        * Determina a contagem dos pontos, sendo que a cada segundo o joagador ganha 1 ponto.
+        * Imprime na tela a pontuação do jogador em tempo real.
+        * A pontuação inicia somente quando o jogador começa a movimentação da nave através da 
+        * variável iniciarPontos.
+        * A cada 5 segundos que a nave ficar parada o jogador perde 3 pontos.
+        */
+        function pontuacao(){   
+             if (iniciarPontos == 1){
+                currentTimePontos = (new Date().getTime());
+            }        
+            else if (iniciarPontos > 1){
+                lastTimePontos = (new Date().getTime());
+                deltaPontos = Math.floor((lastTimePontos - currentTimePontos)/1000);      
+            }            
+            penalidadeTempo =  Math.floor((lastTimePontos - currentTimePenalidade)/1000);
+            if (penalidadeTempo == 5){ //Caso a nave fique parada 5 segundos...
+                penalidade = penalidade + 3; //Subtrai 3 pontos do placar e... 
+                currentTimePenalidade = (new Date()).getTime(); //Zera o contador de tempo de penalidade.
+            }
+            pontos = deltaPontos - penalidade;
+            ctx.font = "12px Arial";
+            ctx.strokeText('PONTOS: ' + pontos, 10, 390);
+        }        
+        //Inicio        
+        requestAnimationFrame(gameloop);     
+
+    </script>
+</body>
+</html>
