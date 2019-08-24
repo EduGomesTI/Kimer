@@ -50,12 +50,18 @@ Observação: Por uma questão de um pouco mais de originalidade os asteroides d
             //Desenha a nave
         function desenharNave(pX, pY){            
             window.onkeydown = pressTecla;     
-            ctx.drawImage(imgNave, xNave, yNave)   
+            imgNave.onload = function(){
+                ctx.drawImage(imgNave, xNave, yNave)
+            }
+              
         }
             //Desenha o meteoro
         function desenharOvni(oX, oY){
             imgOvni.src = "imagens/OvniVerde.webp";
-            ctx.drawImage(imgOvni, oX, oY);
+            imgOvni.onload = function(){
+                ctx.drawImage(imgOvni, oX, oY);
+            }
+           
         }
             /*
             * Detecta a tecla pressionada e faz a movimentação correspondente

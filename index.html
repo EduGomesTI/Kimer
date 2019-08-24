@@ -17,31 +17,51 @@
             var myCanvas;
             var ctx;
             var fundoImg = new Image(); //Adiciona a imagem de background no canvas.
-             
+            var imagens = ["Resources/ColorDesert.jpg", "Resources/ColorFall.jpg", "Resources/ColorForest.jpg"];
+            var currentTime = 0; 
+            var lastTime = 0;    
+            var deltaTime = 0;    
 
             //Funções
             function iniciarKimer(){
                 myCanvas = document.getElementById("canvas");
                 ctx = myCanvas.getContext("2d");            
-                limpar();          
+                limpar();        
+                requestAnimationFrame(iniciarKimer);
+                // console.log(deltaTime);
+                // console.log(fundoImg.src);
             }           
 
             function limpar(){
                 ctx.clearRect(0, 0, 800, 400);
                 mudarFundo();
             }
+        
 
-            function mudarFundo(){
-                var imagens = ["Resources/ColorDesert.jpg", "Resources/ColorFall.jpg", "Resources/ColorForest.jpg"];
-                fundoImg.src = imagens[0];
-                fundoImg.onload = function(){
-                    ctx.drawImage(fundoImg, 0, 0);
+            function mudarFundo(){         
+                //Faz a contagem do tempo de cada imagem de fundo.
+                if (currentTime == 0){
+                    currentTime = (new Date().getTime());                    
                 }
-                
+                lastTime = (new Date().getTime());
+                deltaTime = Math.floor((lastTime - currentTime)/1000);        
+
+                //Muda a imaegm de fundo de acordo com o tempo.                 
+                if (deltaTime <= 30){
+                    fundoImg.src = imagens[0];
+                    
+                } else if (deltaTime >= 31 && deltaTime <=60){
+                    fundoImg.src = imagens[1];                    
+                } else {
+                    fundoImg.src = imagens[2];                    
+                }
+                ctx.drawImage(fundoImg, 0, 0);             
+                ctx.font = "12px Arial";
+                ctx.strokeText('Tempo: ' + deltaTime, 10, 390);
             }
 
                 //Início
-                requestAnimationFrame(iniciarKimer);
+                  requestAnimationFrame(iniciarKimer);
            
         </script>
     </body>
