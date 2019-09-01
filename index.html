@@ -18,6 +18,11 @@
             var ctx;
             var fundoImg = new Image(); //Adiciona a imagem de background no canvas.
             var imagens = ["Resources/ColorDesert.jpg", "Resources/ColorFall.jpg", "Resources/ColorForest.jpg"];
+            var kimmerImg = new Image(); //Kimmer.
+            var xKimmer = 0;
+            var yKimmer = 300;
+            var posicao = 0; //Indica a posição atual do personagem.
+            var num_posicoes = 6 //Quantidade de imagens que compõe o movimento. 
             var currentTime = 0; 
             var lastTime = 0;    
             var deltaTime = 0;    
@@ -27,9 +32,8 @@
                 myCanvas = document.getElementById("canvas");
                 ctx = myCanvas.getContext("2d");            
                 limpar();        
+                desenharKimmer(xKimmer, yKimmer);
                 requestAnimationFrame(iniciarKimer);
-                // console.log(deltaTime);
-                // console.log(fundoImg.src);
             }           
 
             function limpar(){
@@ -58,6 +62,53 @@
                 ctx.drawImage(fundoImg, 0, 0);             
                 ctx.font = "12px Arial";
                 ctx.strokeText('Tempo: ' + deltaTime, 10, 390);
+            }
+
+            function desenharKimmer(Kx, Ky){
+                kimmerImg.src = "Resources/Kimer/Kimmer_"+ posicao + ".webp";   
+                window.onkeydown = moverKimmer;      
+                ctx.drawImage(kimmerImg, xKimmer, yKimmer); 
+            }
+
+            function moverKimmer(evt){
+                switch (evt.keyCode){
+                    case 39: //Direita
+                        if (xKimmer < 775){
+                            xKimmer = xKimmer + 5;  
+                            posicao++;
+                            if (posicao == num_posicoes){
+                                posicao = 0;  
+                            }
+                        }
+                    break;
+                    case 37: //Esquerda
+                        if (xKimmer > 0){
+                            xKimmer = xKimmer - 5;   
+                            posicao++;
+                            if (posicao == num_posicoes){
+                                posicao = 0;  
+                            }
+                        }
+                    break;     
+                    case 38: //up
+                        if (yKimmer > 230){
+                            yKimmer = yKimmer - 5;
+                        }    
+                        posicao++;
+                            if (posicao == num_posicoes){
+                                posicao = 0;  
+                            }
+                    break;
+                    case 40: //baixo
+                        if (yKimmer < 350){
+                            yKimmer = yKimmer + 5;
+                        }    
+                        posicao++;
+                            if (posicao == num_posicoes){
+                                posicao = 0;  
+                            }
+                    break;  
+                }   
             }
 
                 //Início
