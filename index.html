@@ -15,17 +15,48 @@
         <script>
             //Variáveis
             var myCanvas;
-            var ctx;
+            var ctx;            
+
+                //Variaáveis que cuidam do background
             var fundoImg = new Image(); //Adiciona a imagem de background no canvas.
-            var imagens = ["Resources/ColorDesert.jpg", "Resources/ColorFall.jpg", "Resources/ColorForest.jpg"];
-            var kimmerImg = new Image(); //Kimmer.
-            var xKimmer = 0;
-            var yKimmer = 300;
-            var posicao = 0; //Indica a posição atual do personagem.
-            var num_posicoes = 6 //Quantidade de imagens que compõe o movimento. 
+            var imagensFundo = ["Resources/ColorDesert.jpg", "Resources/ColorFall.jpg", "Resources/ColorForest.jpg"];
             var currentTime = 0; 
             var lastTime = 0;    
-            var deltaTime = 0;    
+            var deltaTime = 0; 
+
+                //Variáveis que cuidam do personagem Kimmer
+            var kimmerImg = new Image(); //Kimmer.
+            var imagensKimmer = ["Resources/Kimer/Kimmer_0.webp", "Resources/Kimer/Kimmer_1.webp",
+                                 "Resources/Kimer/Kimmer_2.webp", "Resources/Kimer/Kimmer_3.webp",
+                                 "Resources/Kimer/Kimmer_4.webp", "Resources/Kimer/Kimmer_5.webp", ];
+            var xKimmer = 0;
+            var yKimmer = 300;
+            var posicaoKimmer = 0; //Indica a posição atual do personagem.
+            var num_posicoesKimmer = 6 //Quantidade de imagens que compõe o movimento. 
+
+                //Variáveis que cuidam dos inimigos
+            var inimigoImg = new Image(); //Sprites dos inimigos.
+            var imagensInimigo = ["Resources/Inimigos/Dino0.webp", "Resources/Inimigos/Dino1.webp",
+                                  "Resources/Inimigos/Dino2.webp", "Resources/Inimigos/Dino3.webp",
+                                  "Resources/Inimigos/Dino4.webp", "Resources/Inimigos/Dino5.webp",
+                                  "Resources/Inimigos/Dino6.webp", "Resources/Inimigos/Dino7.webp",
+                                  "Resources/Inimigos/Garota0.webp", "Resources/Inimigos/Garota1.webp",
+                                  "Resources/Inimigos/Garota2.webp", "Resources/Inimigos/Garota3.webp",
+                                  "Resources/Inimigos/Garota4.webp", "Resources/Inimigos/Garota5.webp",
+                                  "Resources/Inimigos/Garota6.webp", "Resources/Inimigos/Garota7.webp",
+                                  "Resources/Inimigos/Jack0.webp", "Resources/Inimigos/Jack1.webp",
+                                  "Resources/Inimigos/Jack2.webp", "Resources/Inimigos/Jack3.webp",
+                                  "Resources/Inimigos/Jack4.webp", "Resources/Inimigos/Jack5.webp",
+                                  "Resources/Inimigos/Jack6.webp", "Resources/Inimigos/Jack7.webp"];
+            var xInimigo = 750;
+            var yInimigo = 0;
+            var posicaoInimigo = 0;
+            var num_posicoesInimigo = 8;
+            var sortearInimigo = 0;
+            var curTimeInimigo = 0;
+            var lastTimeInimigo = 0;
+            var deltaTimeInimigo = 0;
+   
 
             //Funções
             function iniciarKimer(){
@@ -33,6 +64,7 @@
                 ctx = myCanvas.getContext("2d");            
                 limpar();        
                 desenharKimmer(xKimmer, yKimmer);
+                desenharInimigo();
                 requestAnimationFrame(iniciarKimer);
             }           
 
@@ -52,12 +84,12 @@
 
                 //Muda a imaegm de fundo de acordo com o tempo.                 
                 if (deltaTime <= 30){
-                    fundoImg.src = imagens[0];
+                    fundoImg.src = imagensFundo[0];
                     
                 } else if (deltaTime >= 31 && deltaTime <=60){
-                    fundoImg.src = imagens[1];                    
+                    fundoImg.src = imagensFundo[1];                    
                 } else {
-                    fundoImg.src = imagens[2];                    
+                    fundoImg.src = imagensFundo[2];                    
                 }
                 ctx.drawImage(fundoImg, 0, 0);             
                 ctx.font = "20px Arial";
@@ -65,7 +97,7 @@
             }
 
             function desenharKimmer(Kx, Ky){
-                kimmerImg.src = "Resources/Kimer/Kimmer_"+ posicao + ".webp";   
+                kimmerImg.src = imagensKimmer[posicaoKimmer];   
                 window.onkeydown = moverKimmer;      
                 ctx.drawImage(kimmerImg, xKimmer, yKimmer); 
             }
@@ -75,18 +107,18 @@
                     case 39: //Direita
                         if (xKimmer < 775){
                             xKimmer = xKimmer + 5;  
-                            posicao++;
-                            if (posicao == num_posicoes){
-                                posicao = 0;  
+                            posicaoKimmer++;
+                            if (posicaoKimmer == num_posicoesKimmer){
+                                posicaoKimmer = 0;  
                             }
                         }
                     break;
                     case 37: //Esquerda
                         if (xKimmer > 0){
                             xKimmer = xKimmer - 5;   
-                            posicao++;
-                            if (posicao == num_posicoes){
-                                posicao = 0;  
+                            posicaoKimmer++;
+                            if (posicaoKimmer == num_posicoesKimmer){
+                                posicaoKimmer = 0;  
                             }
                         }
                     break;     
@@ -94,22 +126,90 @@
                         if (yKimmer > 230){
                             yKimmer = yKimmer - 5;
                         }    
-                        posicao++;
-                            if (posicao == num_posicoes){
-                                posicao = 0;  
+                        posicaoKimmer++;
+                            if (posicaoKimmer == num_posicoesKimmer){
+                                posicaoKimmer = 0;  
                             }
                     break;
                     case 40: //baixo
                         if (yKimmer < 350){
                             yKimmer = yKimmer + 5;
                         }    
-                        posicao++;
-                            if (posicao == num_posicoes){
-                                posicao = 0;  
+                        posicaoKimmer++;
+                            if (posicaoKimmer == num_posicoesKimmer){
+                                posicaoKimmer = 0;  
                             }
                     break;  
                 }   
             }
+                function desenharInimigo(){
+                    if (curTimeInimigo == 0){
+                        curTimeInimigo = (new Date().getTime());   
+                        sortearInimigo = Math.floor(Math.random() * 3);                 
+                    } 
+                    lastTimeInimigo = (new Date().getTime());
+                    deltaTimeInimigo = Math.floor((lastTimeInimigo - curTimeInimigo)/500); 
+                    //Usa o deltaTimeInimigo para mudar os sprites dos inimigos
+                    
+                    var x = 0;
+                    switch (deltaTimeInimigo){
+                        
+                        case 0: //sorteia o primeiro inimigo
+                            x = (sortearInimigo * 8) + deltaTimeInimigo;
+                           // inimigoImg.src = imagensInimigo[(deltaTimeInimigo * sortearInimigo)]
+                            //ctx.drawImage(inimigoImg, xInimigo, yInimigo);
+                        break;
+                        case 1: 
+                            x = (sortearInimigo * 8) + deltaTimeInimigo;
+                            inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo)]
+                            ctx.drawImage(inimigoImg, xInimigo, yInimigo);
+                        break;
+                        case 2: 
+                            x = (sortearInimigo * 8) +  deltaTimeInimigo;
+                            inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo)]
+                            ctx.drawImage(inimigoImg, xInimigo, yInimigo);
+                        break;
+                        case 3: 
+                            x = (sortearInimigo * 8) + deltaTimeInimigo;
+                            inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo)]
+                            ctx.drawImage(inimigoImg, xInimigo, yInimigo);
+                        break;
+                        case 4: 
+                            x = (sortearInimigo * 8) + deltaTimeInimigo;
+                            inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo)]
+                            ctx.drawImage(inimigoImg, xInimigo, yInimigo);
+                        break;
+                        case 5: 
+                            x = (sortearInimigo * 8) + deltaTimeInimigo;
+                            inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo)]
+                            ctx.drawImage(inimigoImg, xInimigo, yInimigo);
+                        break;   
+                        case 6: 
+                            x = (sortearInimigo * 8) + deltaTimeInimigo;
+                            inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo)]
+                            ctx.drawImage(inimigoImg, xInimigo, yInimigo);
+                        break;                     
+                        case 7:
+                            x = (sortearInimigo * 8) + deltaTimeInimigo;
+                            inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo)]
+                            ctx.drawImage(inimigoImg, xInimigo, yInimigo);
+                        break
+                        case 8:
+                            curTimeInimigo = 0;
+                        break;
+                    }
+                    ctx.font = "20px Arial";
+                    ctx.strokeText('Inimigo Tempo: ' + deltaTimeInimigo, 200, 20);
+                    ctx.font = "20px Arial";
+                    ctx.strokeText('Inimigo: ' + sortearInimigo + " - " + x, 500, 20);
+                    
+                
+                
+                // kimmerImg.src = imagensKimmer[posicaoKimmer];   
+                // window.onkeydown = moverKimmer;      
+                // ctx.drawImage(kimmerImg, xKimmer, yKimmer); 
+            }
+            
 
                 //Início
                   requestAnimationFrame(iniciarKimer);
