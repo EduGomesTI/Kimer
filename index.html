@@ -31,11 +31,15 @@
                                  "Resources/Kimer/Kimmer_4.webp", "Resources/Kimer/Kimmer_5.webp", ];
             var kimmerX = 0;
             var KimmerY = 300;
+            var kimmerLargura = 25;
+            var kimmerAltura = 50;
             var kimmerPosicao = 0; //Indica a posição atual do personagem.
             var kimmerMaxPosicoes = 6 //Quantidade de imagens que compõe o movimento. 
 
                 //Variáveis que cuidam dos inimigos
-            var inimigoImg = new Image(); //Sprites dos inimigos.
+            var inimigoLargura = 10;
+            var inimigoAltura = 50;
+
             var inimigoImagens = ["Resources/Inimigos/Dino0.webp", "Resources/Inimigos/Dino1.webp",
                                   "Resources/Inimigos/Dino2.webp", "Resources/Inimigos/Dino3.webp",
                                   "Resources/Inimigos/Dino4.webp", "Resources/Inimigos/Dino5.webp",
@@ -74,9 +78,9 @@
                                   "Resources/Inimigos/WalkM6.webp", "Resources/Inimigos/WalkM7.webp"
             ];
             //Inimigo 1;
+            var inimigoImg = new Image(); //Sprites dos inimigos.
             var inimigoX = 750;
             var inimigoY = 300;
-            var inimigoVelocidade = 1.6; //Muda a velocidade que os inimigos andam na tela
             var InimigoSortear = 0;
             var inimigoCurrentTime = 0;
             var inimigoLastTime = 0;
@@ -87,20 +91,14 @@
             var inimigo2Img = new Image(); //Sprites dos inimigos.
             var inimigo2X = 750;
             var inimigo2Y = 300;
-            var inimigo2Velocidade = 1.6; //Muda a velocidade que os inimigos andam na tela
             var Inimigo2Sortear = 0;
             var inimigo2Posicao = 0;
-            var inimigo2MaxPosicoes = 0;
             //Inimigo 3;
-            //Inimigo 2;
             var inimigo3Img = new Image(); //Sprites dos inimigos.
             var inimigo3X = 750;
             var inimigo3Y = 300;
-            var inimigo3Velocidade = 1.6; //Muda a velocidade que os inimigos andam na tela
             var Inimigo3Sortear = 0;
             var inimigo3Posicao = 0;
-            var inimigo3MaxPosicoes = 0;
-   
 
             //Funções
             function iniciarKimer(){
@@ -109,7 +107,7 @@
                 limpar();        
                 desenharKimmer(kimmerX, KimmerY);
                 inimigoDesenhar();
-                requestAnimationFrame(iniciarKimer);
+                colisaoInimigo();
             }           
 
             function limpar(){
@@ -137,7 +135,7 @@
                 }
                 ctx.drawImage(fundoImg, 0, 0);             
                 ctx.font = "20px Arial";
-                ctx.strokeText('Tempo: ' + fundoDeltaTime, 10, 20);
+                ctx.strokeText('Pontos: ' + fundoDeltaTime, 10, 20);
             }
 
             function desenharKimmer(Kx, Ky){
@@ -199,12 +197,16 @@
                         InimigoSortear = Math.floor(Math.random() * 9);     
                         do {
                             inimigoY = Math.floor(Math.random() * 350);
-                        } while (inimigoY < 210);
-                        Inimigo2Sortear = Math.floor(Math.random() * 9);     
+                        } while (inimigoY < 210);                             
+                        do { //Para não repetir o inimigo
+                            Inimigo2Sortear = Math.floor(Math.random() * 9);
+                        } while (Inimigo2Sortear == InimigoSortear);
                         do {
                             inimigo2Y = Math.floor(Math.random() * 350);
                         } while (inimigo2Y < 210);
-                        Inimigo3Sortear = Math.floor(Math.random() * 9);     
+                        do { //Para não repetir o inimigo
+                            Inimigo3Sortear = Math.floor(Math.random() * 9);   
+                        } while (Inimigo3Sortear == Inimigo2Sortear);
                         do {
                             inimigo3Y = Math.floor(Math.random() * 350);
                         } while (inimigo3Y < 210);
@@ -249,19 +251,37 @@
                 } else if(inimigo3X < 1){
                     inimigo3X = 750;
                     inimigoCurrentTime = 0;
-                }
-                
+                }                
 
                 //Informação de Debug
-                ctx.font = "20px Arial";
-                ctx.strokeText('Inimigo x: ' + inimigoX, 200, 20);
-                 ctx.font = "20px Arial";
-                 ctx.strokeText('Inimigo: ' + inimigoDeltaTime, 500, 20);
+                // ctx.font = "20px Arial";
+                // ctx.strokeText('Inimigo x: ' + inimigoX, 200, 20);
+                //  ctx.font = "20px Arial";
+                //  ctx.strokeText('Inimigo: ' + inimigoDeltaTime, 500, 20);
             }
             
+            //Colisão com inimigo
+            function colisaoInimigo(){
+                if (//Colisão com inimigo 1
+                    (((kimmerX + kimmerLargura) > inimigoX && kimmerX < (inimigoX + inimigoLargura)) 
+                    && ((KimmerY + kimmerAltura) > inimigoY && KimmerY < (inimigoY + inimigoAltura)))
+                    || //Colisão com inimigo 2
+                    (((kimmerX + kimmerLargura) > inimigo2X && kimmerX < (inimigo2X + inimigoLargura)) 
+                    && ((KimmerY + kimmerAltura) > inimigo2Y && KimmerY < (inimigo2Y + inimigoAltura)))
+                    || //Colisão com inimigo 3
+                    (((kimmerX + kimmerLargura) > inimigo3X && kimmerX < (inimigo3X + inimigoLargura)) 
+                    && ((KimmerY + kimmerAltura) > inimigo3Y && KimmerY < (inimigo3Y + inimigoAltura)))                
+                ){
+                    clearTimeout();
+                    alert("Game Over.")
+                } else{
+                    requestAnimationFrame(iniciarKimer);
+                }
+            }
 
-                //Início
-                  requestAnimationFrame(iniciarKimer);
+
+            //Início
+            requestAnimationFrame(iniciarKimer);
            
         </script>
     </body>
