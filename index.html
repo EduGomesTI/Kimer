@@ -19,24 +19,24 @@
 
                 //Variaáveis que cuidam do background
             var fundoImg = new Image(); //Adiciona a imagem de background no canvas.
-            var imagensFundo = ["Resources/ColorDesert.jpg", "Resources/ColorFall.jpg", "Resources/ColorForest.jpg"];
-            var currentTime = 0; 
-            var lastTime = 0;    
-            var deltaTime = 0; 
+            var fundoImagens = ["Resources/ColorDesert.jpg", "Resources/ColorFall.jpg", "Resources/ColorForest.jpg"];
+            var fundoCurrentTime = 0; 
+            var fundoLastTime = 0;    
+            var fundoDeltaTime = 0; 
 
                 //Variáveis que cuidam do personagem Kimmer
             var kimmerImg = new Image(); //Kimmer.
-            var imagensKimmer = ["Resources/Kimer/Kimmer_0.webp", "Resources/Kimer/Kimmer_1.webp",
+            var KimmerImagens = ["Resources/Kimer/Kimmer_0.webp", "Resources/Kimer/Kimmer_1.webp",
                                  "Resources/Kimer/Kimmer_2.webp", "Resources/Kimer/Kimmer_3.webp",
                                  "Resources/Kimer/Kimmer_4.webp", "Resources/Kimer/Kimmer_5.webp", ];
-            var xKimmer = 0;
-            var yKimmer = 300;
-            var posicaoKimmer = 0; //Indica a posição atual do personagem.
-            var num_posicoesKimmer = 6 //Quantidade de imagens que compõe o movimento. 
+            var kimmerX = 0;
+            var KimmerY = 300;
+            var kimmerPosicao = 0; //Indica a posição atual do personagem.
+            var kimmerMaxPosicoes = 6 //Quantidade de imagens que compõe o movimento. 
 
                 //Variáveis que cuidam dos inimigos
             var inimigoImg = new Image(); //Sprites dos inimigos.
-            var imagensInimigo = ["Resources/Inimigos/Dino0.webp", "Resources/Inimigos/Dino1.webp",
+            var inimigoImagens = ["Resources/Inimigos/Dino0.webp", "Resources/Inimigos/Dino1.webp",
                                   "Resources/Inimigos/Dino2.webp", "Resources/Inimigos/Dino3.webp",
                                   "Resources/Inimigos/Dino4.webp", "Resources/Inimigos/Dino5.webp",
                                   "Resources/Inimigos/Dino6.webp", "Resources/Inimigos/Dino7.webp",
@@ -73,13 +73,33 @@
                                   "Resources/Inimigos/WalkM4.webp", "Resources/Inimigos/WalkM5.webp",
                                   "Resources/Inimigos/WalkM6.webp", "Resources/Inimigos/WalkM7.webp"
             ];
-            var xInimigo = 750;
-            var yInimigo = 300;
-            var xAddInimigo = 1.6; //Muda a velocidade que os inimigos andam na tela
-            var sortearInimigo = 0;
-            var curTimeInimigo = 0;
-            var lastTimeInimigo = 0;
-            var deltaTimeInimigo = 0;
+            //Inimigo 1;
+            var inimigoX = 750;
+            var inimigoY = 300;
+            var inimigoVelocidade = 1.6; //Muda a velocidade que os inimigos andam na tela
+            var InimigoSortear = 0;
+            var inimigoCurrentTime = 0;
+            var inimigoLastTime = 0;
+            var inimigoDeltaTime = 0;
+            var inimigoPosicao = 0;
+            var inimigoMaxPosicoes = 0;
+            //Inimigo 2;
+            var inimigo2Img = new Image(); //Sprites dos inimigos.
+            var inimigo2X = 750;
+            var inimigo2Y = 300;
+            var inimigo2Velocidade = 1.6; //Muda a velocidade que os inimigos andam na tela
+            var Inimigo2Sortear = 0;
+            var inimigo2Posicao = 0;
+            var inimigo2MaxPosicoes = 0;
+            //Inimigo 3;
+            //Inimigo 2;
+            var inimigo3Img = new Image(); //Sprites dos inimigos.
+            var inimigo3X = 750;
+            var inimigo3Y = 300;
+            var inimigo3Velocidade = 1.6; //Muda a velocidade que os inimigos andam na tela
+            var Inimigo3Sortear = 0;
+            var inimigo3Posicao = 0;
+            var inimigo3MaxPosicoes = 0;
    
 
             //Funções
@@ -87,8 +107,8 @@
                 myCanvas = document.getElementById("canvas");
                 ctx = myCanvas.getContext("2d");            
                 limpar();        
-                desenharKimmer(xKimmer, yKimmer);
-                desenharInimigo();
+                desenharKimmer(kimmerX, KimmerY);
+                inimigoDesenhar();
                 requestAnimationFrame(iniciarKimer);
             }           
 
@@ -100,343 +120,143 @@
 
             function mudarFundo(){         
                 //Faz a contagem do tempo de cada imagem de fundo.
-                if (currentTime == 0){
-                    currentTime = (new Date().getTime());                    
+                if (fundoCurrentTime == 0){
+                    fundoCurrentTime = (new Date().getTime());                    
                 }
-                lastTime = (new Date().getTime());
-                deltaTime = Math.floor((lastTime - currentTime)/1000);        
+                fundoLastTime = (new Date().getTime());
+                fundoDeltaTime = Math.floor((fundoLastTime - fundoCurrentTime)/1000);        
 
                 //Muda a imaegm de fundo de acordo com o tempo.                 
-                if (deltaTime <= 30){
-                    fundoImg.src = imagensFundo[0];
+                if (fundoDeltaTime <= 30){
+                    fundoImg.src = fundoImagens[0];
                     
-                } else if (deltaTime >= 31 && deltaTime <=60){
-                    fundoImg.src = imagensFundo[1];                    
+                } else if (fundoDeltaTime >= 31 && fundoDeltaTime <=60){
+                    fundoImg.src = fundoImagens[1];                    
                 } else {
-                    fundoImg.src = imagensFundo[2];                    
+                    fundoImg.src = fundoImagens[2];                    
                 }
                 ctx.drawImage(fundoImg, 0, 0);             
                 ctx.font = "20px Arial";
-                ctx.strokeText('Tempo: ' + deltaTime, 10, 20);
+                ctx.strokeText('Tempo: ' + fundoDeltaTime, 10, 20);
             }
 
             function desenharKimmer(Kx, Ky){
-                kimmerImg.src = imagensKimmer[posicaoKimmer];   
-                window.onkeydown = moverKimmer;      
-                ctx.drawImage(kimmerImg, xKimmer, yKimmer); 
+                kimmerImg.src = KimmerImagens[kimmerPosicao];   
+                window.onkeydown = kimmerMover;      
+                ctx.drawImage(kimmerImg, kimmerX, KimmerY); 
             }
 
-            function moverKimmer(evt){
+            function kimmerMover(evt){
                 switch (evt.keyCode){
                     case 39: //Direita
-                        if (xKimmer < 775){
-                            xKimmer = xKimmer + 5;  
-                            posicaoKimmer++;
-                            if (posicaoKimmer == num_posicoesKimmer){
-                                posicaoKimmer = 0;  
+                        if (kimmerX < 775){
+                            kimmerX = kimmerX + 5;  
+                            kimmerPosicao++;
+                            if (kimmerPosicao == kimmerMaxPosicoes){
+                                kimmerPosicao = 0;  
                             }
                         }
                     break;
                     case 37: //Esquerda
-                        if (xKimmer > 0){
-                            xKimmer = xKimmer - 5;   
-                            posicaoKimmer++;
-                            if (posicaoKimmer == num_posicoesKimmer){
-                                posicaoKimmer = 0;  
+                        if (kimmerX > 0){
+                            kimmerX = kimmerX - 5;   
+                            kimmerPosicao++;
+                            if (kimmerPosicao == kimmerMaxPosicoes){
+                                kimmerPosicao = 0;  
                             }
                         }
                     break;     
                     case 38: //up
-                        if (yKimmer > 210){
-                            yKimmer = yKimmer - 5;
+                        if (KimmerY > 210){
+                            KimmerY = KimmerY - 5;
                         }    
-                        posicaoKimmer++;
-                            if (posicaoKimmer == num_posicoesKimmer){
-                                posicaoKimmer = 0;  
+                        kimmerPosicao++;
+                            if (kimmerPosicao == kimmerMaxPosicoes){
+                                kimmerPosicao = 0;  
                             }
                     break;
                     case 40: //baixo
-                        if (yKimmer < 350){
-                            yKimmer = yKimmer + 5;
+                        if (KimmerY < 350){
+                            KimmerY = KimmerY + 5;
                         }    
-                        posicaoKimmer++;
-                            if (posicaoKimmer == num_posicoesKimmer){
-                                posicaoKimmer = 0;  
+                        kimmerPosicao++;
+                            if (kimmerPosicao == kimmerMaxPosicoes){
+                                kimmerPosicao = 0;  
                             }
                     break;  
                 }   
-            }
-            function desenharInimigo(){
-                if (curTimeInimigo == 0){
-                    curTimeInimigo = (new Date().getTime());   
-                    // sortearInimigo = Math.floor(Math.random() * 9);     
-                    // do {
-                    //     yInimigo = Math.floor(Math.random() * 350);
-                    // } while (yInimigo < 210);           
-                     
+            }            
+            
+            function inimigoDesenhar(){
+                if (inimigoCurrentTime == 0){
+                    inimigoCurrentTime = (new Date().getTime());  
                 } 
-                lastTimeInimigo = (new Date().getTime());
-                deltaTimeInimigo = Math.floor((lastTimeInimigo - curTimeInimigo)/170); 
-
-                //Usa o deltaTimeInimigo para mudar os sprites dos inimigos                    
-                       
-                switch (deltaTimeInimigo){
-                      
-                    case 0: //sorteia o primeiro inimigo
-                        sortearInimigo = Math.floor(Math.random() * 9);     
+                inimigoLastTime = (new Date().getTime());
+                inimigoDeltaTime = Math.floor((inimigoLastTime - inimigoCurrentTime)/200); 
+                               
+                switch (inimigoDeltaTime) {
+                    case 0:
+                        InimigoSortear = Math.floor(Math.random() * 9);     
                         do {
-                        yInimigo = Math.floor(Math.random() * 350);
-                        } while (yInimigo < 210); 
-                    break;
-                    case 1: 
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 1)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 2: 
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 1)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 3: 
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 1)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo); 
-                    break;
-                    case 4: 
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 1)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo); 
-                    break;
-                    case 5: 
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 1)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                        
-                    break;   
-                    case 6: 
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 1)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;                     
-                    case 7:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 1)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break
-                    case 8:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 1)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 9:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 9)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 10:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 9)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 11:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 9)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 12:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 9)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 13:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 9)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 14:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 9)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 15:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 9)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 16:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 9)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 17:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 17)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 18:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 17)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 19:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 17)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 20:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 17)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 21:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 17)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                       
-                    break;
-                    case 22:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 17)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 23:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 17)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 24:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 17)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 25: 
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 25)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 26: 
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 25)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 27: 
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 25)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 28: 
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 25)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 29: 
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 25)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;   
-                    case 30: 
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 25)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;                     
-                    case 31:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 25)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break
-                    case 32:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 25)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 33:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 33)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 34:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 33)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 35:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 33)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 36:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 33)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 37:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 33)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 38:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 33)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 39:
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 33)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                    break;
-                    case 40:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 33)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 41:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 41)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 42:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 41)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 43:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 41)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 44:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 41)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 45:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 41)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                       
-                    break;
-                    case 46:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 41)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 47:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 41)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);                        
-                    break;
-                    case 48:    
-                        inimigoImg.src = imagensInimigo[((sortearInimigo * 8) + deltaTimeInimigo - 41)]
-                        xInimigo = xInimigo - xAddInimigo;
-                        ctx.drawImage(inimigoImg, xInimigo, yInimigo);
-                        xInimigo = 750
-                        curTimeInimigo = 0;
-                    break;
+                            inimigoY = Math.floor(Math.random() * 350);
+                        } while (inimigoY < 210);
+                        Inimigo2Sortear = Math.floor(Math.random() * 9);     
+                        do {
+                            inimigo2Y = Math.floor(Math.random() * 350);
+                        } while (inimigo2Y < 210);
+                        Inimigo3Sortear = Math.floor(Math.random() * 9);     
+                        do {
+                            inimigo3Y = Math.floor(Math.random() * 350);
+                        } while (inimigo3Y < 210);
+                        break;                
+                    default:
+                        break;
                 }
+               
+               //Inimigo 1
+                if (inimigoX >= 0){
+                    inimigoImg.src = inimigoImagens[((InimigoSortear * 8) + inimigoPosicao)]
+                    ctx.drawImage(inimigoImg, inimigoX, inimigoY);
+                    inimigoX = inimigoX - 2;
+                    inimigoPosicao++;
+                    if (inimigoPosicao == 8){
+                        inimigoPosicao = 0;
+                    }  
+                } else if(inimigoX < 1 && inimigoDeltaTime < 2){
+                    inimigoX = 750;                    
+                }
+
+                if (inimigo2X >= 0 && inimigoDeltaTime > 12){
+                    inimigo2Img.src = inimigoImagens[((Inimigo2Sortear * 8) + inimigo2Posicao)]
+                    ctx.drawImage(inimigo2Img, inimigo2X, inimigo2Y);
+                    inimigo2X = inimigo2X - 2;
+                    inimigo2Posicao++;
+                    if (inimigo2Posicao == 8){
+                        inimigo2Posicao = 0;
+                    }  
+                } else if(inimigo2X < 1 && inimigoDeltaTime <13){
+                    inimigo2X = 750;                    
+                }
+
+                if (inimigo3X >= 0 && inimigoDeltaTime > 25){
+                    inimigo3Img.src = inimigoImagens[((Inimigo3Sortear * 8) + inimigo3Posicao)]
+                    ctx.drawImage(inimigo3Img, inimigo3X, inimigo3Y);
+                    inimigo3X = inimigo3X - 2;
+                    inimigo3Posicao++;
+                    if (inimigo3Posicao == 8){
+                        inimigo3Posicao = 0;
+                    }  
+                } else if(inimigo3X < 1){
+                    inimigo3X = 750;
+                    inimigoCurrentTime = 0;
+                }
+                
+
                 //Informação de Debug
-                // ctx.font = "20px Arial";
-                // ctx.strokeText('Inimigo Tempo: ' + deltaTimeInimigo, 200, 20);
-                // ctx.font = "20px Arial";
-                // ctx.strokeText('Inimigo: ' + sortearInimigo + " - " + xInimigo, 500, 20);
+                ctx.font = "20px Arial";
+                ctx.strokeText('Inimigo x: ' + inimigoX, 200, 20);
+                 ctx.font = "20px Arial";
+                 ctx.strokeText('Inimigo: ' + inimigoDeltaTime, 500, 20);
             }
             
 
