@@ -106,7 +106,8 @@ Observação: Por uma questão de um pouco mais de originalidade os asteroides d
         }
             //Detecta a colisão da nave com o meteoro
         function colisao(){
-            if (((xNave + larguraNave) > xOvni && xNave < (xOvni + larguraOvni)) && ((yNave + alturaNave) > yOvni && yNave < (yOvni + alturaOvni))){
+            if (((xNave + larguraNave) > xOvni && xNave < (xOvni + larguraOvni)) 
+            && ((yNave + alturaNave) > yOvni && yNave < (yOvni + alturaOvni))){
                 //Ocorreu a colisão, faça algo
                 clearTimeout();
                 alert('Game Over.');

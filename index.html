@@ -31,8 +31,8 @@
                                  "Resources/Kimer/Kimmer_4.webp", "Resources/Kimer/Kimmer_5.webp", ];
             var kimmerX = 0;
             var KimmerY = 300;
-            var kimmerLargura = 25;
-            var kimmerAltura = 50;
+            var kimmerLargura = 15;
+            var kimmerAltura = 30;
             var kimmerPosicao = 0; //Indica a posição atual do personagem.
             var kimmerMaxPosicoes = 6 //Quantidade de imagens que compõe o movimento. 
 
@@ -100,6 +100,18 @@
             var Inimigo3Sortear = 0;
             var inimigo3Posicao = 0;
 
+            //Variáveis da Nave;
+            naveAltura = 40;
+            naveLargura = 25;
+            naveImg = new Image();
+            naveX = 400;
+            naveY = 300;
+            asaDireitaImg = new Image();
+            asaEsquerdaImg = new Image();
+            cockpitImg = new Image();
+            corpoImg = new Image();
+            motorImg = new Image();
+
             //Funções
             function iniciarKimer(){
                 myCanvas = document.getElementById("canvas");
@@ -107,6 +119,8 @@
                 limpar();        
                 desenharKimmer(kimmerX, KimmerY);
                 inimigoDesenhar();
+                pecasNave();
+                mostrarPecasNave();
                 colisaoInimigo();
             }           
 
@@ -278,7 +292,70 @@
                     requestAnimationFrame(iniciarKimer);
                 }
             }
+            
+            //Mostra as peças da nave utilizando as variáveis da mudança de fundo.
+            function pecasNave(){
+                if (fundoDeltaTime > 17 && fundoDeltaTime < 27){
+                    naveImg.src = "Resources/Ships/AsaDireita.webp";
+                    ctx.drawImage(naveImg, naveX, naveY);
+                    if (
+                    ((kimmerX + kimmerLargura) > naveX && kimmerX < (naveX + naveLargura)) 
+                    && ((KimmerY + kimmerAltura) > naveY && KimmerY < (naveY + naveAltura))                              
+                    ){
+                        asaDireitaImg.src = naveImg.src;
+                    }
+                }
+                if (fundoDeltaTime > 34 && fundoDeltaTime < 44){
+                    naveImg.src = "Resources/Ships/AsaEsquerda.webp";
+                    ctx.drawImage(naveImg, naveX, naveY);
+                    if (
+                    ((kimmerX + kimmerLargura) > naveX && kimmerX < (naveX + naveLargura)) 
+                    && ((KimmerY + kimmerAltura) > naveY && KimmerY < (naveY + naveAltura))                              
+                    ){
+                        asaEsquerdaImg.src = naveImg.src;
+                    }
+                }
+                if (fundoDeltaTime > 51 && fundoDeltaTime < 61){
+                    naveImg.src = "Resources/Ships/Cockpit.webp";
+                    ctx.drawImage(naveImg, naveX, naveY);
+                    if (
+                    ((kimmerX + kimmerLargura) > naveX && kimmerX < (naveX + naveLargura)) 
+                    && ((KimmerY + kimmerAltura) > naveY && KimmerY < (naveY + naveAltura))                              
+                    ){
+                        cockpitImg.src = naveImg.src;
+                    }
+                }
+                if (fundoDeltaTime > 68 && fundoDeltaTime < 78){
+                    naveImg.src = "Resources/Ships/Corpo.webp";
+                    ctx.drawImage(naveImg, naveX, naveY);
+                    if (
+                    ((kimmerX + kimmerLargura) > naveX && kimmerX < (naveX + naveLargura)) 
+                    && ((KimmerY + kimmerAltura) > naveY && KimmerY < (naveY + naveAltura))                              
+                    ){
+                        corpoImg.src = naveImg.src;
+                    }
+                }
+                if (fundoDeltaTime > 85 && fundoDeltaTime < 95){
+                    naveImg.src = "Resources/Ships/Motor.webp";
+                    ctx.drawImage(naveImg, naveX, naveY);
+                    if (
+                    ((kimmerX + kimmerLargura) > naveX && kimmerX < (naveX + naveLargura)) 
+                    && ((KimmerY + kimmerAltura) > naveY && KimmerY < (naveY + naveAltura))                              
+                    ){
+                        motorImg.src = naveImg.src;
+                    }
+                }
 
+            }
+
+            //Pegar peças da nave
+            function mostrarPecasNave(){
+                ctx.drawImage(asaDireitaImg, 750, 10);
+                ctx.drawImage(asaEsquerdaImg, 700, 10);
+                ctx.drawImage(cockpitImg, 650, 10);
+                ctx.drawImage(corpoImg, 600, 10);
+                ctx.drawImage(motorImg, 550, 10);              
+            }       
 
             //Início
             requestAnimationFrame(iniciarKimer);
