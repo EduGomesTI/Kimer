@@ -2,16 +2,11 @@
     <head>
         <title>Kimer</title>
         <meta charset="UTF-8">
-        <style>
-        * {
-        overflow: hidden; margin: 0; padding: 0; font-size: 1em;
-        } 
-     
-        </style>
+        <link rel="stylesheet" type="text/css" href="css/estilo.css">            
         
     </head>
     <body>  
-        <canvas id="canvas" width="800" height="400" style="border: #F00 solid 1px;">	Seu navegador não suporta canvas </canvas>  
+        <canvas id="canvas" width="900" height="500">	Seu navegador não suporta canvas </canvas>  
         <script>
             //Variáveis
             var myCanvas;
@@ -79,8 +74,8 @@
             ];
             //Inimigo 1;
             var inimigoImg = new Image(); //Sprites dos inimigos.
-            var inimigoX = 750;
-            var inimigoY = 300;
+            var inimigoX = 850;
+            var inimigoY = 400;
             var InimigoSortear = 0;
             var inimigoCurrentTime = 0;
             var inimigoLastTime = 0;
@@ -89,14 +84,14 @@
             var inimigoMaxPosicoes = 0;
             //Inimigo 2;
             var inimigo2Img = new Image(); //Sprites dos inimigos.
-            var inimigo2X = 750;
-            var inimigo2Y = 300;
+            var inimigo2X = 850;
+            var inimigo2Y = 400;
             var Inimigo2Sortear = 0;
             var inimigo2Posicao = 0;
             //Inimigo 3;
             var inimigo3Img = new Image(); //Sprites dos inimigos.
-            var inimigo3X = 750;
-            var inimigo3Y = 300;
+            var inimigo3X = 850;
+            var inimigo3Y = 400;
             var Inimigo3Sortear = 0;
             var inimigo3Posicao = 0;
 
@@ -158,38 +153,38 @@
                 ctx.drawImage(kimmerImg, kimmerX, KimmerY); 
             }
 
-            function kimmerMover(evt){
-                switch (evt.keyCode){
-                    case 39: //Direita
-                        if (kimmerX < 775){
-                            kimmerX = kimmerX + 5;  
+            function kimmerMover(direcao){
+                switch (direcao){
+                    case 'dir': //Direita
+                        if (kimmerX < 875){
+                            kimmerX = kimmerX + 12;  
                             kimmerPosicao++;
                             if (kimmerPosicao == kimmerMaxPosicoes){
                                 kimmerPosicao = 0;  
                             }
                         }
                     break;
-                    case 37: //Esquerda
+                    case 'esq': //Esquerda
                         if (kimmerX > 0){
-                            kimmerX = kimmerX - 5;   
+                            kimmerX = kimmerX - 12;   
                             kimmerPosicao++;
                             if (kimmerPosicao == kimmerMaxPosicoes){
                                 kimmerPosicao = 0;  
                             }
                         }
                     break;     
-                    case 38: //up
-                        if (KimmerY > 210){
-                            KimmerY = KimmerY - 5;
+                    case 'cima': //up
+                        if (KimmerY > 250){
+                            KimmerY = KimmerY - 12;
                         }    
                         kimmerPosicao++;
                             if (kimmerPosicao == kimmerMaxPosicoes){
                                 kimmerPosicao = 0;  
                             }
                     break;
-                    case 40: //baixo
-                        if (KimmerY < 350){
-                            KimmerY = KimmerY + 5;
+                    case 'baixo': //baixo
+                        if (KimmerY < 450){
+                            KimmerY = KimmerY + 12;
                         }    
                         kimmerPosicao++;
                             if (kimmerPosicao == kimmerMaxPosicoes){
@@ -210,19 +205,19 @@
                     case 0:
                         InimigoSortear = Math.floor(Math.random() * 9);     
                         do {
-                            inimigoY = Math.floor(Math.random() * 350);
+                            inimigoY = Math.floor(Math.random() * 450);
                         } while (inimigoY < 210);                             
                         do { //Para não repetir o inimigo
                             Inimigo2Sortear = Math.floor(Math.random() * 9);
                         } while (Inimigo2Sortear == InimigoSortear);
                         do {
-                            inimigo2Y = Math.floor(Math.random() * 350);
+                            inimigo2Y = Math.floor(Math.random() * 450);
                         } while (inimigo2Y < 210);
                         do { //Para não repetir o inimigo
                             Inimigo3Sortear = Math.floor(Math.random() * 9);   
                         } while (Inimigo3Sortear == Inimigo2Sortear);
                         do {
-                            inimigo3Y = Math.floor(Math.random() * 350);
+                            inimigo3Y = Math.floor(Math.random() * 450);
                         } while (inimigo3Y < 210);
                         break;                
                     default:
@@ -276,7 +271,8 @@
             
             //Colisão com inimigo
             function colisaoInimigo(){
-                if (//Colisão com inimigo 1
+               if(fundoDeltaTime < 101){
+                    if (//Colisão com inimigo 1
                     (((kimmerX + kimmerLargura) > inimigoX && kimmerX < (inimigoX + inimigoLargura)) 
                     && ((KimmerY + kimmerAltura) > inimigoY && KimmerY < (inimigoY + inimigoAltura)))
                     || //Colisão com inimigo 2
@@ -290,7 +286,12 @@
                     alert("Game Over.")
                 } else{
                     requestAnimationFrame(iniciarKimer);
-                }
+                }     
+               } else {
+                    clearTimeout();
+                    alert("Parabéns! Você consguiu ajudar o Kimer a pegar sua nave e voltar para casa.")
+               }
+                
             }
             
             //Mostra as peças da nave utilizando as variáveis da mudança de fundo.
@@ -302,7 +303,7 @@
                     ((kimmerX + kimmerLargura) > naveX && kimmerX < (naveX + naveLargura)) 
                     && ((KimmerY + kimmerAltura) > naveY && KimmerY < (naveY + naveAltura))                              
                     ){
-                        asaDireitaImg.src = naveImg.src;
+                        asaDireitaImg.src = naveImg.src;                        
                     }
                 }
                 if (fundoDeltaTime > 34 && fundoDeltaTime < 44){
@@ -361,5 +362,11 @@
             requestAnimationFrame(iniciarKimer);
            
         </script>
+		<input id="btnEsq" type="button" name="esq" value="" onClick="kimmerMover('esq');">
+		<input id="btnDir" type="button" name="dir" value="" onClick="kimmerMover('dir');">
+		<input id="btnUp" type="button" name="cima"  value="" onClick="kimmerMover('cima');">
+		<input id="btnDown" type="button" name="baixo" value=""onClick="kimmerMover('baixo');">
+		<input id="btnNew" type="button" name="jogar" value="JOGAR DE NOVO"onClick="location.reload();;">
+		
     </body>
 </html>

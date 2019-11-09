@@ -1,0 +1,47 @@
+* {
+    overflow: hidden; margin: 0; padding: 0; font-size: 1em;
+} 
+
+#canvas{
+    border: 1px red solid;
+}
+
+#btnNew {
+    position:absolute;
+    top:40px;
+    left:10px;
+    width: 150px;
+    height: 20px;
+}
+
+#btnEsq {
+    top:70px;
+    left:330px;
+    background: url("../Resources/SetaEsq.webp") no-repeat center center white;
+}
+
+#btnDir {
+    top:70px;
+    left:470px;
+    background: url("../Resources/SetaDir.webp") no-repeat center center white;
+}
+
+#btnUp {    
+    top:35px;
+    left:400px;     
+    background: url("../Resources/SetaUp.webp") no-repeat center center white; 
+}
+
+#btnDown {
+    top:105px;
+    left:400px;
+    background: url("../Resources/SetaDown.webp") no-repeat center center white;
+}
+
+#btnEsq, #btnDir, #btnUp, #btnDown {
+    width:50px;  
+    height:50px;
+    position:absolute;
+    margin:0px;
+    padding:0px;
+}
