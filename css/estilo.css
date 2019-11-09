@@ -15,26 +15,26 @@
 }
 
 #btnEsq {
-    top:70px;
-    left:330px;
+    top:120px;
+    left:810px;
     background: url("../Resources/SetaEsq.webp") no-repeat center center white;
 }
 
 #btnDir {
-    top:70px;
-    left:470px;
+    top:120px;
+    left:950px;
     background: url("../Resources/SetaDir.webp") no-repeat center center white;
 }
 
 #btnUp {    
-    top:35px;
-    left:400px;     
+    top:85px;
+    left:880px;     
     background: url("../Resources/SetaUp.webp") no-repeat center center white; 
 }
 
 #btnDown {
-    top:105px;
-    left:400px;
+    top:155px;
+    left:880px;
     background: url("../Resources/SetaDown.webp") no-repeat center center white;
 }
 

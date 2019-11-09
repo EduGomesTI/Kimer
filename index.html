@@ -6,7 +6,7 @@
         
     </head>
     <body>  
-        <canvas id="canvas" width="900" height="500">	Seu navegador não suporta canvas </canvas>  
+        <canvas id="canvas" width="1024" height="600">	Seu navegador não suporta canvas </canvas>  
         <script>
             //Variáveis
             var myCanvas;
@@ -25,7 +25,7 @@
                                  "Resources/Kimer/Kimmer_2.webp", "Resources/Kimer/Kimmer_3.webp",
                                  "Resources/Kimer/Kimmer_4.webp", "Resources/Kimer/Kimmer_5.webp", ];
             var kimmerX = 0;
-            var KimmerY = 300;
+            var KimmerY = 400;
             var kimmerLargura = 15;
             var kimmerAltura = 30;
             var kimmerPosicao = 0; //Indica a posição atual do personagem.
@@ -74,8 +74,8 @@
             ];
             //Inimigo 1;
             var inimigoImg = new Image(); //Sprites dos inimigos.
-            var inimigoX = 850;
-            var inimigoY = 400;
+            var inimigoX = 974;
+            var inimigoY = 500;
             var InimigoSortear = 0;
             var inimigoCurrentTime = 0;
             var inimigoLastTime = 0;
@@ -84,14 +84,14 @@
             var inimigoMaxPosicoes = 0;
             //Inimigo 2;
             var inimigo2Img = new Image(); //Sprites dos inimigos.
-            var inimigo2X = 850;
-            var inimigo2Y = 400;
+            var inimigo2X = 974;
+            var inimigo2Y = 500;
             var Inimigo2Sortear = 0;
             var inimigo2Posicao = 0;
             //Inimigo 3;
             var inimigo3Img = new Image(); //Sprites dos inimigos.
-            var inimigo3X = 850;
-            var inimigo3Y = 400;
+            var inimigo3X = 974;
+            var inimigo3Y = 500;
             var Inimigo3Sortear = 0;
             var inimigo3Posicao = 0;
 
@@ -99,8 +99,8 @@
             naveAltura = 40;
             naveLargura = 25;
             naveImg = new Image();
-            naveX = 400;
-            naveY = 300;
+            naveX = 500;
+            naveY = 450;
             asaDireitaImg = new Image();
             asaEsquerdaImg = new Image();
             cockpitImg = new Image();
@@ -120,7 +120,7 @@
             }           
 
             function limpar(){
-                ctx.clearRect(0, 0, 800, 400);
+                ctx.clearRect(0, 0, 1024, 600);
                 mudarFundo();
             }
         
@@ -156,8 +156,8 @@
             function kimmerMover(direcao){
                 switch (direcao){
                     case 'dir': //Direita
-                        if (kimmerX < 875){
-                            kimmerX = kimmerX + 12;  
+                        if (kimmerX < 1009){
+                            kimmerX = kimmerX + 15;  
                             kimmerPosicao++;
                             if (kimmerPosicao == kimmerMaxPosicoes){
                                 kimmerPosicao = 0;  
@@ -166,7 +166,7 @@
                     break;
                     case 'esq': //Esquerda
                         if (kimmerX > 0){
-                            kimmerX = kimmerX - 12;   
+                            kimmerX = kimmerX - 15;   
                             kimmerPosicao++;
                             if (kimmerPosicao == kimmerMaxPosicoes){
                                 kimmerPosicao = 0;  
@@ -174,8 +174,8 @@
                         }
                     break;     
                     case 'cima': //up
-                        if (KimmerY > 250){
-                            KimmerY = KimmerY - 12;
+                        if (KimmerY > 330){
+                            KimmerY = KimmerY - 15;
                         }    
                         kimmerPosicao++;
                             if (kimmerPosicao == kimmerMaxPosicoes){
@@ -183,8 +183,8 @@
                             }
                     break;
                     case 'baixo': //baixo
-                        if (KimmerY < 450){
-                            KimmerY = KimmerY + 12;
+                        if (KimmerY < 550){
+                            KimmerY = KimmerY + 15;
                         }    
                         kimmerPosicao++;
                             if (kimmerPosicao == kimmerMaxPosicoes){
@@ -205,20 +205,20 @@
                     case 0:
                         InimigoSortear = Math.floor(Math.random() * 9);     
                         do {
-                            inimigoY = Math.floor(Math.random() * 450);
-                        } while (inimigoY < 210);                             
+                            inimigoY = Math.floor(Math.random() * 550);
+                        } while (inimigoY < 330);                             
                         do { //Para não repetir o inimigo
                             Inimigo2Sortear = Math.floor(Math.random() * 9);
                         } while (Inimigo2Sortear == InimigoSortear);
                         do {
-                            inimigo2Y = Math.floor(Math.random() * 450);
-                        } while (inimigo2Y < 210);
+                            inimigo2Y = Math.floor(Math.random() * 550);
+                        } while (inimigo2Y < 330);
                         do { //Para não repetir o inimigo
                             Inimigo3Sortear = Math.floor(Math.random() * 9);   
                         } while (Inimigo3Sortear == Inimigo2Sortear);
                         do {
-                            inimigo3Y = Math.floor(Math.random() * 450);
-                        } while (inimigo3Y < 210);
+                            inimigo3Y = Math.floor(Math.random() * 550);
+                        } while (inimigo3Y < 330);
                         break;                
                     default:
                         break;
@@ -359,7 +359,7 @@
             }       
 
             //Início
-            requestAnimationFrame(iniciarKimer);
+            requestAnimationFrame(iniciarKimer);            
            
         </script>
 		<input id="btnEsq" type="button" name="esq" value="" onClick="kimmerMover('esq');">
