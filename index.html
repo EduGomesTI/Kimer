@@ -106,6 +106,11 @@
             cockpitImg = new Image();
             corpoImg = new Image();
             motorImg = new Image();
+            asaDireita = false;
+            asaEsquerda = false;
+            cockpit = false;
+            motor = false;
+            corpo = false;
 
             //Funções
             function iniciarKimer(){
@@ -297,53 +302,88 @@
             //Mostra as peças da nave utilizando as variáveis da mudança de fundo.
             function pecasNave(){
                 if (fundoDeltaTime > 17 && fundoDeltaTime < 27){
-                    naveImg.src = "Resources/Ships/AsaDireita.webp";
+                    if (!asaDireita) {
+                        naveImg.src = "Resources/Ships/AsaDireita.webp";
+                    } else {
+                        naveImg.src = "";
+                    }
                     ctx.drawImage(naveImg, naveX, naveY);
                     if (
                     ((kimmerX + kimmerLargura) > naveX && kimmerX < (naveX + naveLargura)) 
                     && ((KimmerY + kimmerAltura) > naveY && KimmerY < (naveY + naveAltura))                              
                     ){
-                        asaDireitaImg.src = naveImg.src;                        
+                        if (!asaDireita) {
+                            asaDireitaImg.src = naveImg.src;   
+                        }   
+                        asaDireita = true;                                      
                     }
                 }
                 if (fundoDeltaTime > 34 && fundoDeltaTime < 44){
-                    naveImg.src = "Resources/Ships/AsaEsquerda.webp";
+                    if(!asaEsquerda) {
+                        naveImg.src = "Resources/Ships/AsaEsquerda.webp";
+                    } else {
+                        naveImg.src = "";
+                    }
                     ctx.drawImage(naveImg, naveX, naveY);
                     if (
                     ((kimmerX + kimmerLargura) > naveX && kimmerX < (naveX + naveLargura)) 
                     && ((KimmerY + kimmerAltura) > naveY && KimmerY < (naveY + naveAltura))                              
                     ){
-                        asaEsquerdaImg.src = naveImg.src;
+                        if(!asaEsquerda) {
+                            asaEsquerdaImg.src = naveImg.src;
+                        }
+                        asaEsquerda = true;
                     }
                 }
                 if (fundoDeltaTime > 51 && fundoDeltaTime < 61){
-                    naveImg.src = "Resources/Ships/Cockpit.webp";
+                    if(!cockpit) {
+                        naveImg.src = "Resources/Ships/Cockpit.webp";
+                    } else {
+                        naveImg.src = "";
+                    }
                     ctx.drawImage(naveImg, naveX, naveY);
                     if (
                     ((kimmerX + kimmerLargura) > naveX && kimmerX < (naveX + naveLargura)) 
                     && ((KimmerY + kimmerAltura) > naveY && KimmerY < (naveY + naveAltura))                              
                     ){
-                        cockpitImg.src = naveImg.src;
+                        if(!cockpit) {
+                            cockpitImg.src = naveImg.src;
+                        }
+                        cockpit = true;
                     }
                 }
                 if (fundoDeltaTime > 68 && fundoDeltaTime < 78){
-                    naveImg.src = "Resources/Ships/Corpo.webp";
+                    if(!corpo){
+                        naveImg.src = "Resources/Ships/Corpo.webp";
+                    } else {
+                        naveImg.src = "";
+                    }
                     ctx.drawImage(naveImg, naveX, naveY);
                     if (
                     ((kimmerX + kimmerLargura) > naveX && kimmerX < (naveX + naveLargura)) 
                     && ((KimmerY + kimmerAltura) > naveY && KimmerY < (naveY + naveAltura))                              
                     ){
-                        corpoImg.src = naveImg.src;
+                        if(!corpo){
+                            corpoImg.src = naveImg.src;
+                        }
+                        corpo = true;
                     }
                 }
                 if (fundoDeltaTime > 85 && fundoDeltaTime < 95){
-                    naveImg.src = "Resources/Ships/Motor.webp";
+                    if(!motor){
+                        naveImg.src = "Resources/Ships/Motor.webp";
+                    } else {
+                        naveImg.src = "";
+                    }
                     ctx.drawImage(naveImg, naveX, naveY);
                     if (
                     ((kimmerX + kimmerLargura) > naveX && kimmerX < (naveX + naveLargura)) 
                     && ((KimmerY + kimmerAltura) > naveY && KimmerY < (naveY + naveAltura))                              
                     ){
-                        motorImg.src = naveImg.src;
+                        if(!motor){
+                            motorImg.src = naveImg.src;
+                        }
+                        motor = true;
                     }
                 }
 
